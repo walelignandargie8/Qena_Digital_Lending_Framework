@@ -1,0 +1,11 @@
+*.class
+target
+.classpath
+.settings
+.idea
+*.iml
+build
+src/tmp/Logs/API_Logging.txt
+src/tmp/Logs/UI_Logging.log.1
+*.log
+*.lck
