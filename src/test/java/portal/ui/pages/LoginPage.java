@@ -171,18 +171,7 @@ public class LoginPage extends GenericPage<LoginPage> {
         }
     }
 
-    /**
-     * Method to verify user is logged in
-     */
-    public void verifyUserIsLoggedIn() {
-        // currently sometimes when an email link is manually extracted and opened the oidc javascript logged out page is displayed
-        // on auto redirect after password setup so this click action is added, to be removed once the issue is resolved
-        Selenide.sleep(3000);
-        if (LoginElements.LOGGED_OUT_MESSAGE.isDisplayed() && LoginElements.LOGGED_OUT_MESSAGE.text().contains("You are Logged out")) {
-            LoginElements.LOGGED_OUT_PAGE_LOGIN_BUTTON.shouldBe(visible.because("Login link is not visible")).click();
-        }
 
-    }
 
     /**
      * Method to navigate to Cxs Admin

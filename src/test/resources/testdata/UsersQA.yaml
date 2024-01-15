@@ -1,6 +1,6 @@
 users:
   - id: 981
     userPurpose: Any
-    role: Admin
+    role: superadmin
     username: superadmin@michu.et
     password: superadmin

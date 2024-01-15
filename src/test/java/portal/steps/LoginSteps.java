@@ -2,8 +2,6 @@ package portal.steps;
 
 import static com.codeborne.selenide.Selenide.open;
 
-import portal.api.services.ContentDeliveryService;
-import portal.api.services.SettingsService;
 import portal.api.services.UserService;
 import portal.constants.CookiesConstant;
 import portal.constants.UserConstants;
@@ -13,14 +11,11 @@ import portal.models.localizations.Localization;
 import portal.models.users.User;
 import portal.models.users.Users;
 import portal.ui.pages.LoginPage;
-import portal.utils.StringUtils;
 import portal.utils.TestContext;
 import portal.utils.UserUtils;
-import io.cucumber.java.en.And;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.restassured.http.Cookies;
 
 import java.util.HashMap;
@@ -35,8 +30,6 @@ public class LoginSteps {
     private final UserQueriesExecutor userQueriesExecutor;
     private final TestContext testContext;
     private final LoginQueriesExecutor loginQueriesExecutor;
-    private final SettingsService settingsService;
-    private final ContentDeliveryService contentDeliveryService;
     public final Map<String, String> currentSettingValues;
     public final Map<String, String> currentContentValues;
     public Localization localizationData;
@@ -49,8 +42,6 @@ public class LoginSteps {
         loginQueriesExecutor = LoginQueriesExecutor.getLoginQueriesExecutor();
         userService = UserService.getUserService(testContext);
         userQueriesExecutor = UserQueriesExecutor.getUserQueriesExecutor();
-        settingsService = SettingsService.getSettingsService(testContext);
-        contentDeliveryService = ContentDeliveryService.getContentDeliveryService();
         currentSettingValues = new HashMap<>();
         currentContentValues = new HashMap<>();
         localizationData = new Localization();
@@ -69,41 +60,41 @@ public class LoginSteps {
         loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
     }
 
-    @Given("I login as {string} level user")
-    public void loginAsLevelUser(String userLevel) {
-        User user = users.getUserForLevel(userLevel);
-        loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
-        testContext.setContext(UserConstants.USER_INFORMATION, user);
-    }
+//    @Given("I login as {string} level user")
+//    public void loginAsLevelUser(String userLevel) {
+//        User user = users.getUserForLevel(userLevel);
+//        loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
+//        testContext.setContext(UserConstants.USER_INFORMATION, user);
+//    }
 
-    @Given("I login as {string} user purpose")
-    public void loginAsUserPurpose(String userPurpose) {
-        testContext.setContext(UserConstants.LOGGED_IN_USER_PURPOSE, userPurpose);
-        User user = users.getUserGivenPurpose(userPurpose);
-        loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
-    }
+//    @Given("I login as {string} user purpose")
+//    public void loginAsUserPurpose(String userPurpose) {
+//        testContext.setContext(UserConstants.LOGGED_IN_USER_PURPOSE, userPurpose);
+//        User user = users.getUserGivenPurpose(userPurpose);
+//        loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
+//    }
 
-    @When("I login to page after user detail is updated")
-    public void loginAfterUserDetailUpdate() {
-        User user = (User) testContext.getContext(UserConstants.USER_INFORMATION);
-        loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
-    }
+//    @When("I login to page after user detail is updated")
+//    public void loginAfterUserDetailUpdate() {
+//        User user = (User) testContext.getContext(UserConstants.USER_INFORMATION);
+//        loginPage.loginWithCredentials(user.getUsername(), user.getPassword());
+//    }
 
 
 
-    @And("I input {string} and submit the form")
-    public void inputValueAndSubmitForm(String fieldType) {
-        User user = (User) testContext.getContext(UserConstants.USER_INFORMATION);
-        if (fieldType.equalsIgnoreCase("username")) {
-            loginPage.inputValueAndSubmitForm(fieldType, user.getUsername());
-        } else {
-            user.setPassword(user.getPassword() + StringUtils.generateAlphabeticString(5));
-            loginPage.inputValueAndSubmitForm(fieldType, user.getPassword());
-            if (fieldType.equalsIgnoreCase("password")) {
-                testContext.setContext(UserConstants.USER_INFORMATION, user);
-            }
-        }
-    }
+//    @And("I input {string} and submit the form")
+//    public void inputValueAndSubmitForm(String fieldType) {
+//        User user = (User) testContext.getContext(UserConstants.USER_INFORMATION);
+//        if (fieldType.equalsIgnoreCase("username")) {
+//            loginPage.inputValueAndSubmitForm(fieldType, user.getUsername());
+//        } else {
+//            user.setPassword(user.getPassword() + StringUtils.generateAlphabeticString(5));
+//            loginPage.inputValueAndSubmitForm(fieldType, user.getPassword());
+//            if (fieldType.equalsIgnoreCase("password")) {
+//                testContext.setContext(UserConstants.USER_INFORMATION, user);
+//            }
+//        }
+//    }
 
     @Then("I verify {string} success page is displayed")
     public void verifyConfirmationPage(String pageType) {
@@ -116,4 +107,8 @@ public class LoginSteps {
     }
 
 
+//    @Then("I verify user is logged in")
+//    public void verifyUserIsLoggedIn() {
+//        loginPage.verifyUserIsLoggedIn();
+//    }
 }
