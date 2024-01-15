@@ -1,6 +1,5 @@
-package portal.utils;
+package portal.steps;
 
-import portal.constants.ColumnsConstants;
 import net.ricecode.similarity.JaroWinklerStrategy;
 import net.ricecode.similarity.SimilarityStrategy;
 import net.ricecode.similarity.StringSimilarityService;
@@ -174,66 +173,6 @@ public class StringUtils {
     }
 
     /**
-     * Method to sort a list with desired order
-     *
-     * @param unsortedList list of data
-     * @param isDate       flag for data type of column
-     * @param order        desired orders e.g. ascending or descending
-     * @return sorted list
-     */
-    public static List<String> sortList(List<String> unsortedList, boolean isDate, String order) {
-        if (isDate) {
-            return sortDateList(unsortedList, order);
-        } else {
-            return sortRegularList(unsortedList, order);
-        }
-    }
-
-    /**
-     * Method to sort regular list
-     *
-     * @param unsortedList list of data
-     * @param order        desired orders e.g. ascending or descending
-     * @return sorted list
-     */
-    public static List<String> sortRegularList(List<String> unsortedList, String order) {
-        if (order.equalsIgnoreCase(ColumnsConstants.ASCENDING)) {
-            return unsortedList.stream().sorted().collect(Collectors.toList());
-        } else {
-            return unsortedList.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        }
-    }
-
-    /**
-     * Method to sort the list of data related to date
-     *
-     * @param unsortedList list of data
-     * @param order        desired orders e.g. ascending or descending
-     * @return sorted list
-     */
-    public static List<String> sortDateList(List<String> unsortedList, String order) {
-        if (unsortedList.size() > 0) {
-            Collections.sort(unsortedList, new Comparator<String>() {
-                final DateFormat formatData = new SimpleDateFormat("MMMM dd, yyyy");
-
-                @Override
-                public int compare(String object1, String object2) {
-                    try {
-                        if (order.equalsIgnoreCase(ColumnsConstants.DESCENDING)) {
-                            return formatData.parse(object2).compareTo(formatData.parse(object1));
-                        } else {
-                            return formatData.parse(object1).compareTo(formatData.parse(object2));
-                        }
-                    } catch (ParseException e) {
-                        throw new IllegalArgumentException(e);
-                    }
-                }
-            });
-        }
-        return unsortedList;
-    }
-
-    /**
      * Method to convert from list of HashMap  to List of String
      */
     public static ArrayList<String> getListOfStringFromListOfHashMap(List<HashMap<String, Object>> hashMapList, String filteredColumnName) {
@@ -320,37 +259,6 @@ public class StringUtils {
         }
         return difference;
     }
-
-    /**
-     * Method to generate an invalid password
-     *
-     * @param policyType     check used to create a password
-     * @param passwordLength password length
-     * @param passwordFilter detail used to omit generating a valid password
-     * @return invalid password
-     */
-    public static String generateInvalidPassword(String policyType, int passwordLength, String passwordFilter) {
-        String newPassword = "";
-        int derivedPasswordLength;
-        if (passwordLength != 0) {
-            derivedPasswordLength = passwordLength;
-        } else {
-            derivedPasswordLength = IntUtils.getRandomNumber(12);
-        }
-        if (policyType.equalsIgnoreCase("password length")) {
-            newPassword = StringUtils.generateAlphabeticString(derivedPasswordLength - 1);
-        } else if (policyType.equalsIgnoreCase("special character")) {
-            String specialCharacters = "!@#$%^&*()_+{}[]:;<>?/|\"'";
-            String stringDifference = StringUtils.compareStringAndGetDifference(specialCharacters, passwordFilter);
-            if (!stringDifference.isEmpty()) {
-                newPassword = StringUtils.generateStringWithSpecialCharacter(stringDifference, derivedPasswordLength);
-            }
-        } else {
-            newPassword = StringUtils.generateAlphabeticString(derivedPasswordLength);
-        }
-        return newPassword;
-    }
-
     /**
      * Method to do sorting dates ascending or descending order
      *
@@ -438,6 +346,7 @@ public class StringUtils {
 
     /**
      * Method to remove the \n, \t and spaces between the strings
+     *
      * @param list list of strings
      * @return list of strings without spaces
      */
@@ -445,5 +354,35 @@ public class StringUtils {
         return list.stream()
                 .map(attribute -> attribute.replaceAll("\\s+", ""))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to replace special characters in the provided template
+     *
+     * @param template template
+     * @return template after replaced
+     */
+    public static String replaceHTMLCharactersOfEmailTemplates(String template) {
+        return template.replaceAll("\n", "").replaceAll("\t", "")
+                .replaceAll("<p>", "").replaceAll("</p>", "").replaceAll(";", "")
+                .replaceAll("&amp", "&").replaceAll("&nbsp", " ")
+                .replaceAll("%3a", ":").replaceAll("%2f", "/");
+    }
+
+    /**
+     * Capitalizes the first letter of a given word and converts the remaining letters to lowercase.
+     *
+     * @param word The input word to be capitalized.
+     * @return A new String with the first letter in uppercase and the rest in lowercase.
+     *
+     *
+     * @example
+     * {@code
+     * String result = capitalizeWord("hello"); // Returns "Hello"
+     * String result2 = capitalizeWord("WORLD"); // Returns "World"
+     * }
+     */
+    public static String capitalizeWord(String word) {
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
     }
 }

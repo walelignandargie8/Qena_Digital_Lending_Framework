@@ -6,7 +6,6 @@ import portal.constants.LogsConstant;
 import portal.constants.PathConstants;
 import portal.utils.PropertiesReader;
 import portal.utils.ScenarioContext;
-import portal.utils.StringUtils;
 import portal.ui.pages.GenericPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
