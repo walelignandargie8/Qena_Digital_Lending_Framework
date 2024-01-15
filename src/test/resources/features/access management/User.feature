@@ -1,10 +1,9 @@
 @ui @regression
 
-Feature: Tests for CXS Login
+Feature: Access Management
 
   @login
-  Scenario: Verify invalid credentials
+  Scenario: Create User
     When I login as "Superadmin" user role
     Then I verify user is logged in
-
-
+    When I navigate to "Access Management" page

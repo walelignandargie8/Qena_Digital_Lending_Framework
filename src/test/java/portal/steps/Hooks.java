@@ -13,6 +13,7 @@ import io.cucumber.java.Scenario;
 import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;
 import org.apache.commons.io.output.WriterOutputStream;
+import portal.utils.StringUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;

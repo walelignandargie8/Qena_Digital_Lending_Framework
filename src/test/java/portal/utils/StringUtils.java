@@ -1,4 +1,4 @@
-package portal.steps;
+package portal.utils;
 
 import net.ricecode.similarity.JaroWinklerStrategy;
 import net.ricecode.similarity.SimilarityStrategy;

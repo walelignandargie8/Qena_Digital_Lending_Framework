@@ -9,20 +9,25 @@ import static portal.ui.pages.HomePage.getHomePage;
 import static portal.ui.pages.LoginPage.getLoginPage;
 
 
-public class HomeSteps {
+public class CommonSteps {
 
     private final HomePage homePage;
     private final LoginPage loginPage;
 
 
-    public HomeSteps() {
+    public CommonSteps() {
         homePage = getHomePage();
         loginPage = getLoginPage();
 
     }
 
-    @Then("I verify user is logged in")
-    public void verifyUserIsLoggedIn() {
-        homePage.verifyUserIsLoggedIn();
+    @When("I navigate to {string} page")
+    public void navigateToPage(String pageName) {
+        homePage.navigateToPage(pageName);
+    }
+
+    @Then("I verify {string} page")
+    public void verifyPage(String pageName) {
+        homePage.verifyPage(pageName);
     }
 }
